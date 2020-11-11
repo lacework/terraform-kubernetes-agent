@@ -13,5 +13,5 @@ The `kubernetes.tf` file will configure a Kubernetes ConfigMap and DaemonSet whi
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
 | lacework_access_token | The Lacework Access Token for the Datacollector to use | `string` | null |
-| pod_cpu | The amount of CPU units to assign to the task | `string` | "100m" |
-| pod_mem | The amount of Memory (Mi) to assign to the task | `string` | "256Mi" |
+| pod_cpu | The amount of CPU units to assign to the pod | `string` | "100m" |
+| pod_mem | The amount of Memory (Mi) to assign to the pod | `string` | "256Mi" |
