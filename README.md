@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a repository of Terraform code which deploys the Lacework Datacollector as a DaemonSet in an Kubernetes (K8s) cluster.
+This is a repository of Terraform code which deploys the Lacework Datacollector as a DaemonSet in a Kubernetes (K8s) cluster.
 
 ## Kubernetes
 
