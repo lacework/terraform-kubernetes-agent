@@ -1,4 +1,4 @@
-# Terraform for deploying Lacework as a Kubernetes cluster
+# Terraform for deploying Lacework in a Kubernetes cluster
 
 ## Description
 
