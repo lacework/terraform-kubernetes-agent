@@ -1,19 +1,25 @@
-resource "kubernetes_config_map" "lacework_datacollector" {
+resource "kubernetes_secret" "lacework_datacollector" {
   metadata {
-    name = "lacework-config"
+    name      = var.lacework_config_name
+    namespace = var.namespace
   }
 
   data = {
-    "config.json" = "{\"tokens\":{\"AccessToken\":\"${var.lacework_access_token}\"}, \"tags\":{\"Env\":\"k8s\"}}"
+    "config.json" = templatefile("${path.module}/config.tmpl", {
+      lacework_access_token = var.lacework_access_token,
+      lacework_agent_tags   = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
+    })
   }
 }
 
 resource "kubernetes_daemonset" "lacework_datacollector" {
   metadata {
-    name = "lacework-agent"
+    name      = var.lacework_agent_name
+    namespace = var.namespace
+
     labels = {
       tier = "monitoring"
-      app  = "lacework-agent"
+      app  = var.lacework_agent_name
     }
   }
 
@@ -29,12 +35,16 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
         labels = {
           name = "lacework"
         }
+
+        annotations = {
+          lacework_config_secret_version = kubernetes_secret.lacework_datacollector.metadata.0.resource_version
+        }
       }
 
       spec {
         container {
           name  = "lacework"
-          image = "lacework/datacollector"
+          image = var.lacework_image
 
           resources {
             requests {
@@ -48,7 +58,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
 
           volume_mount {
-            name       = "cfgmap"
+            name       = "config"
             mount_path = "/var/lib/lacework/config"
           }
           volume_mount {
@@ -157,9 +167,9 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
         volume {
-          name = "cfgmap"
-          config_map {
-            name = "lacework-config"
+          name = "config"
+          secret {
+            secret_name = var.lacework_config_name
             items {
               key  = "config.json"
               path = "config.json"
@@ -186,4 +196,6 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       }
     }
   }
+
+  depends_on = [kubernetes_secret.lacework_datacollector]
 }
