@@ -8,7 +8,7 @@ This is a repository of Terraform code which deploys the Lacework Datacollector 
 
 ## Kubernetes
 
-The `kubernetes.tf` file will configure a Kubernetes ConfigMap and DaemonSet which will then be used to run the Lacework Datacollector pod across all worker nodes in a cluster.
+The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will then be used to run the Lacework Datacollector pod across all worker nodes in a cluster.
 
 ## Variables
 
