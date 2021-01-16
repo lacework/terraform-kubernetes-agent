@@ -1,14 +1,26 @@
-resource "kubernetes_secret" "lacework_datacollector" {
+locals {
+  config_data = templatefile("${path.module}/config.tmpl", {
+    lacework_access_token = var.lacework_access_token,
+    lacework_agent_tags   = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
+  })
+  config_name = "${var.lacework_config_name}-${random_id.config_name_tail.hex}"
+}
+
+resource "random_id" "config_name_tail" {
+  byte_length = 8
+  keepers = {
+    data = local.config_data
+  }
+}
+
+resource "kubernetes_secret" "lacework_config" {
   metadata {
-    name      = var.lacework_config_name
+    name      = local.config_name
     namespace = var.namespace
   }
 
   data = {
-    "config.json" = templatefile("${path.module}/config.tmpl", {
-      lacework_access_token = var.lacework_access_token,
-      lacework_agent_tags   = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
-    })
+    "config.json" = local.config_data
   }
 }
 
@@ -37,7 +49,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
         }
 
         annotations = {
-          lacework_config_secret_version = kubernetes_secret.lacework_datacollector.metadata.0.resource_version
+          lacework_config_version = kubernetes_secret.lacework_config.metadata.0.resource_version
         }
       }
 
@@ -169,7 +181,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
         volume {
           name = "config"
           secret {
-            secret_name = var.lacework_config_name
+            secret_name = local.config_name
             items {
               key  = "config.json"
               path = "config.json"
@@ -196,6 +208,4 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       }
     }
   }
-
-  depends_on = [kubernetes_secret.lacework_datacollector]
 }
