@@ -1,10 +1,10 @@
 <a href="https://lacework.com"><img src="https://techally-content.s3-us-west-1.amazonaws.com/public-content/lacework_logo_full.png" width="200"></a>
 
-# Terraform module for deploying Lacework in a Kubernetes cluster
+# terraform-kubernetes-agent
 
 ## Description
 
-This is a repository of Terraform code which deploys the Lacework Datacollector as a DaemonSet in a Kubernetes (K8s) cluster.
+A Terraform Module to create a Secret and DaemonSet for deploying the Lacework Datacollector Agent in a Kubernetes cluster.
 
 ## Kubernetes
 
