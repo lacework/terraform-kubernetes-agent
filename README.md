@@ -10,7 +10,7 @@ A Terraform Module to create a Secret and DaemonSet for deploying the Lacework D
 
 The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will then be used to run the Lacework Datacollector pod across all worker nodes in a cluster.
 
-## Variables
+## Inputs
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -22,3 +22,12 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | namespace | The Kubernetes namespace in which to deploy | `string` | "default" |
 | pod_cpu | The amount of CPU units to assign to the pod | `string` | "100m" |
 | pod_mem | The amount of Memory (Mi) to assign to the pod | `string` | "256Mi" |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| lacework_config_name | Name of the Kubernetes Secret containing the Lacework config |
+| lacework_config_version | Version of the Kubernetes Secret containing the Lacework config |
+| lacework_datacollector_name | Name of the Kubernetes DaemonSet for the Lacework datacollector |
+| lacework_datacollector_version | Version of the Kubernetes DaemonSet for the Lacework datacollector |
