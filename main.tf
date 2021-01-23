@@ -54,14 +54,30 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       }
 
       spec {
+
+        dynamic "toleration" {
+          for_each = var.tolerations
+          content {
+            key      = toleration.value["key"]
+            operator = lookup(toleration.value, "operator", "Equal")
+            value    = lookup(toleration.value, "operator", "Equal") == "Exists" ? "" : lookup(toleration.value, "value", "")
+            effect   = toleration.value["effect"]
+          }
+        }
+
         container {
-          name  = "lacework"
-          image = var.lacework_image
+          name              = "lacework"
+          image             = var.lacework_image
+          image_pull_policy = var.lacework_image_pull_policy
 
           resources {
             requests {
-              cpu    = var.pod_cpu
-              memory = var.pod_mem
+              cpu    = var.pod_cpu_request
+              memory = var.pod_mem_request
+            }
+            limits {
+              cpu    = var.pod_cpu_limit
+              memory = var.pod_mem_limit
             }
           }
 
@@ -120,10 +136,6 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
         host_network = true
         host_pid     = true
 
-        toleration {
-          key    = "node-role.kubernetes.io/master"
-          effect = "NoSchedule"
-        }
         volume {
           name = "dev"
           host_path {
