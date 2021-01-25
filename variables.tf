@@ -30,7 +30,7 @@ variable "lacework_image" {
 variable "lacework_image_pull_policy" {
   type        = string
   description = "The pull policy to use for deploying the Lacework datacollector"
-  default     = "IfNotPresent"
+  default     = "Always"
 }
 
 variable "namespace" {
