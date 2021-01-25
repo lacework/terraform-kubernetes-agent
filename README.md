@@ -19,9 +19,13 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | lacework_agent_tags | A map/dictionary of Tags to be assigned to the Lacework datacollector | `map` | {} |
 | lacework_config_name | The name for the Lacework agent configuration within Kubernetes | `string` | "lacework-config" |
 | lacework_image | The name of the image to use for deploying the Lacework datacollector | `string` | "lacework/datacollector" |
+| lacework_image_pull_policy | The pull policy to use for deploying the Lacework datacollector | `string` | "Always" |
 | namespace | The Kubernetes namespace in which to deploy | `string` | "default" |
-| pod_cpu | The amount of CPU units to assign to the pod | `string` | "100m" |
-| pod_mem | The amount of Memory (Mi) to assign to the pod | `string` | "256Mi" |
+| pod_cpu_request | The amount of CPU units to request for the Lacework datacollector pod | `string` | "100m" |
+| pod_mem_request | The amount of Memory to request for the Lacework datacollector pod | `string` | "512Mi" |
+| pod_cpu_limit | The limit of CPU units for the Lacework datacollector pod | `string` | "1" |
+| pod_mem_limit | The limit of Memory for the Lacework datacollector pod | `string` | "1024Mi" |
+| tolerations | A list of [Kubernetes Tolerations](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/daemonset#toleration) to apply to the DaemonSet definition | `list(map(string))` | `[{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]` |
 
 ## Outputs
 
