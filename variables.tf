@@ -47,7 +47,7 @@ variable "pod_cpu_request" {
 
 variable "pod_mem_request" {
   type        = string
-  default     = "256Mi"
+  default     = "512Mi"
   description = "The amount of Memory to request for the Lacework datacollector pod"
 }
 
