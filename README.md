@@ -25,7 +25,7 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | pod_mem_request | The amount of Memory to request for the Lacework datacollector pod | `string` | "256Mi" |
 | pod_cpu_limit | The limit of CPU units for the Lacework datacollector pod | `string` | "1" |
 | pod_mem_limit | The limit of Memory for the Lacework datacollector pod | `string` | "1024Mi" |
-| tolerations | A list of Kubernetes Tolerations to apply to the DaemonSet definition | `list(map(string))` | `[{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]` |
+| tolerations | A list of [Kubernetes Tolerations](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/daemonset#toleration) to apply to the DaemonSet definition | `list(map(string))` | `[{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]` |
 
 ## Outputs
 
