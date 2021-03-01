@@ -12,7 +12,7 @@ variable "lacework_agent_name" {
 variable "lacework_agent_interface_connection_size" {
   type        = string
   description = "Desired value for the InterfaceConnectionSize Lacework agent parameter"
-  default     = "10000"
+  default     = "50000"
 }
 
 variable "lacework_agent_tags" {
