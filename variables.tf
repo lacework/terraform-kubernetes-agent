@@ -9,6 +9,12 @@ variable "lacework_agent_name" {
   default     = "lacework-agent"
 }
 
+variable "lacework_agent_interface_connection_size" {
+  type        = string
+  description = "Desired value for the InterfaceConnectionSize Lacework agent parameter"
+  default     = "50000"
+}
+
 variable "lacework_agent_tags" {
   type        = map(string)
   description = "A map/dictionary of Tags to be assigned to the Lacework datacollector"

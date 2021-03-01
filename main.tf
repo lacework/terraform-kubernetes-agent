@@ -1,7 +1,8 @@
 locals {
   config_data = templatefile("${path.module}/config.tmpl", {
-    lacework_access_token = var.lacework_access_token,
-    lacework_agent_tags   = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
+    lacework_access_token                    = var.lacework_access_token,
+    lacework_agent_interface_connection_size = var.lacework_agent_interface_connection_size
+    lacework_agent_tags                      = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
   })
   config_name = "${var.lacework_config_name}-${random_id.config_name_tail.hex}"
 }
