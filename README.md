@@ -22,6 +22,7 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | lacework_image | The name of the image to use for deploying the Lacework datacollector | `string` | "lacework/datacollector" |
 | lacework_image_pull_policy | The pull policy to use for deploying the Lacework datacollector | `string` | "Always" |
 | namespace | The Kubernetes namespace in which to deploy | `string` | "default" |
+| pod_service_account | The Kubernetes ServiceAccount to use in the pod template | `string` | "" |
 | pod_cpu_request | The amount of CPU units to request for the Lacework datacollector pod | `string` | "100m" |
 | pod_mem_request | The amount of Memory to request for the Lacework datacollector pod | `string` | "512Mi" |
 | pod_cpu_limit | The limit of CPU units for the Lacework datacollector pod | `string` | "1" |

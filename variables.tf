@@ -45,6 +45,12 @@ variable "namespace" {
   default     = "default"
 }
 
+variable "pod_service_account" {
+  type        = string
+  description = "The Kubernetes ServiceAccount to use in the pod template"
+  default     = ""
+}
+
 variable "pod_cpu_request" {
   type        = string
   default     = "100m"
