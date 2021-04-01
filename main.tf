@@ -66,6 +66,8 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
 
+        service_account_name = var.pod_service_account
+
         container {
           name              = "lacework"
           image             = var.lacework_image
