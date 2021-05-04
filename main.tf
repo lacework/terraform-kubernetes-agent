@@ -74,11 +74,11 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           image_pull_policy = var.lacework_image_pull_policy
 
           resources {
-            requests {
+            requests = {
               cpu    = var.pod_cpu_request
               memory = var.pod_mem_request
             }
-            limits {
+            limits = {
               cpu    = var.pod_cpu_limit
               memory = var.pod_mem_limit
             }
