@@ -39,6 +39,12 @@ variable "lacework_image_pull_policy" {
   default     = "Always"
 }
 
+variable "lacework_server_url" {
+  type        = string
+  default     = ""
+  description = "The server URL for the Lacework agent"
+}
+
 variable "namespace" {
   type        = string
   description = "The Kubernetes namespace in which to deploy"

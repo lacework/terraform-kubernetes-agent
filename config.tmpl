@@ -3,5 +3,6 @@
         "AccessToken": "${lacework_access_token}",
         "InterfaceConnectionSize": "${lacework_agent_interface_connection_size}"
     },
+    %{ if lacework_server_url != "" }"serverurl": "${lacework_server_url}",%{ endif }
     "tags": ${lacework_agent_tags}
 }
