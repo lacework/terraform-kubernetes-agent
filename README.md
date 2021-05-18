@@ -35,10 +35,10 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 
 ## Inputs
 
-| lacework_agent_interface_connection_size | Desired value for the InterfaceConnectionSize Lacework agent parameter | `string` | "50000" |
 | Name                                     | Description                                                            | Type                | Default                                                                                               | Required |
 | ---------------------------------------- | ---------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- | :------: |
 | lacework_access_token                    | The access token for the Lacework agent                                | `string`            | n/a                                                                                                   |   yes    |
+| lacework_agent_interface_connection_size | Desired value for the InterfaceConnectionSize Lacework agent parameter | `string`            | `""`                                                                                                  |    no    |
 | lacework_agent_name                      | The name for the Lacework agent service within Kubernetes              | `string`            | `"lacework-agent"`                                                                                    |    no    |
 | lacework_agent_tags                      | A map/dictionary of Tags to be assigned to the Lacework datacollector  | `map(string)`       | `{}`                                                                                                  |    no    |
 | lacework_config_name                     | The name for the Lacework agent configuration within Kubernetes        | `string`            | `"lacework-config"`                                                                                   |    no    |
