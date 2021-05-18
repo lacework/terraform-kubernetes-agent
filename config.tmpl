@@ -1,7 +1,8 @@
 {
     "tokens": {
-        "AccessToken": "${lacework_access_token}",
-        "InterfaceConnectionSize": "${lacework_agent_interface_connection_size}"
+        "AccessToken": "${lacework_access_token}"
     },
+    %{ if lacework_agent_interface_connection_size != "" }"InterfaceConnectionSize": "${lacework_agent_interface_connection_size}",%{ endif }
+    %{ if lacework_server_url != "" }"serverurl": "${lacework_server_url}",%{ endif }
     "tags": ${lacework_agent_tags}
 }

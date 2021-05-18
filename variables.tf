@@ -12,7 +12,7 @@ variable "lacework_agent_name" {
 variable "lacework_agent_interface_connection_size" {
   type        = string
   description = "Desired value for the InterfaceConnectionSize Lacework agent parameter"
-  default     = "50000"
+  default     = ""
 }
 
 variable "lacework_agent_tags" {
@@ -37,6 +37,12 @@ variable "lacework_image_pull_policy" {
   type        = string
   description = "The pull policy to use for deploying the Lacework datacollector"
   default     = "Always"
+}
+
+variable "lacework_server_url" {
+  type        = string
+  default     = ""
+  description = "The server URL for the Lacework agent"
 }
 
 variable "namespace" {
