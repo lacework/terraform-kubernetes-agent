@@ -7,7 +7,7 @@ provider "kubernetes" {}
 
 module "lacework_k8s_datacollector" {
   source = "lacework/agent/kubernetes"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   lacework_access_token = "0123456789ABCDEF0123456789ABCDEF"
 
