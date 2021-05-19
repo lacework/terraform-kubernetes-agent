@@ -1,6 +1,7 @@
-# Default Kubernetes Deployment
+# Kubernetes Deployment w/ Custom Interface Connection Size
 
-This example will generate a Kubernetes DaemonSet and Secret configuration for deploying the Lacework Datacollector Agent.
+This example shows how to customize the interface connection size property of the Lacework
+Datacollector Agent.
 
 ```hcl
 provider "kubernetes" {}

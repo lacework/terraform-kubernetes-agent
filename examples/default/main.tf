@@ -1,7 +1,14 @@
 provider "kubernetes" {}
 
+provider "lacework" {}
+
+resource "lacework_agent_access_token" "k8s" {
+  name        = "prod"
+  description = "k8s deployment for production env"
+}
+
 module "lacework_k8s_datacollector" {
   source = "../../"
 
-  lacework_access_token = "0123456789ABCDEF0123456789ABCDEF"
+  lacework_access_token = lacework_agent_access_token.k8s.token
 }
