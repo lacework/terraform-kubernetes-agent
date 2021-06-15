@@ -1,6 +1,6 @@
-# Default Kubernetes Deployment
+# Kubernetes Deployment w/ Custom Server URL
 
-This example will generate a Kubernetes DaemonSet and Secret configuration for deploying the Lacework Datacollector Agent.
+This example shows how to customize Server URL of the Lacework Datacollector Agent.
 
 ```hcl
 provider "kubernetes" {}
@@ -10,6 +10,6 @@ module "lacework_k8s_datacollector" {
   version = "~> 1.0"
 
   lacework_access_token = "0123456789ABCDEF0123456789ABCDEF"
-  lacework_server_url   = "https://api.lacework.net"
+  lacework_server_url   = "https://api.fra.lacework.net"
 }
 ```

@@ -1,6 +1,6 @@
 # Kubernetes Deployment w/ Custom Resource Allocation
 
-This example will genereate a Kubernetes DaemonSet and Secret configuration for deploying the Lacework Datacollector Agent with custom resource allocation.
+This example shows how to customize the resource allocation of the Lacework Datacollector Agent.
 
 ```hcl
 provider "kubernetes" {}
