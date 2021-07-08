@@ -48,6 +48,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       metadata {
         labels = {
           name = "lacework"
+          app  = var.lacework_agent_name
         }
 
         annotations = {
