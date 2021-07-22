@@ -1,12 +1,9 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v1.1.0`.
+Another day, another release. These are the release notes for the version `v1.2.0`.
 
 ## Features
-* feat: added ability to change Lacework server URL (Alan Nix)([464e93d](https://github.com/lacework/terraform-kubernetes-agent/commit/464e93d36a1c85b2e4e9b7e67b263e1ec21aeb84))
-## Bug Fixes
-* fix: 'InterfaceConnectionSize' implemented incorrectly in config.json (Alan Nix)([deab277](https://github.com/lacework/terraform-kubernetes-agent/commit/deab27767c22483d8564d7d2689f912cb68f81be))
+* feat: add label to deamonset metadata (#24) (zdannar)([1e46db1](https://github.com/lacework/terraform-kubernetes-agent/commit/1e46db197fbc38161ee3c4a0624da45dcf2c4ac1))
 ## Documentation Updates
-* docs: updated module version pinning (Alan Nix)([f507cd9](https://github.com/lacework/terraform-kubernetes-agent/commit/f507cd9f0007731e3120ab681b7b2a1f979fab4f))
+* docs: update all examples/ (#21) (Salim Afiune)([a0669a0](https://github.com/lacework/terraform-kubernetes-agent/commit/a0669a0820808aefe25f1e9133d460af0724e07f))
 ## Other Changes
-* chore: cleaned up .gitignore to ignore Terraform lock files (Alan Nix)([60f1aa5](https://github.com/lacework/terraform-kubernetes-agent/commit/60f1aa5ad91fd7ed4f44b482fa061bc1e269e782))
-* chore: version bump to v1.0.2-dev (Lacework)([dd56428](https://github.com/lacework/terraform-kubernetes-agent/commit/dd56428a138eb2d2657acc78f1e6347598c50d6f))
+* chore: version bump to v1.1.1-dev (Lacework)([d32f417](https://github.com/lacework/terraform-kubernetes-agent/commit/d32f417546a1a5e1d696fbe0d5fa9eeae074287b))
