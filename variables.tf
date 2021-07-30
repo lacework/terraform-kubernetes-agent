@@ -39,6 +39,12 @@ variable "lacework_image_pull_policy" {
   default     = "Always"
 }
 
+variable "lacework_proxy_url" {
+  type        = string
+  default     = ""
+  description = "The proxy URL for the Lacework agent"
+}
+
 variable "lacework_server_url" {
   type        = string
   default     = ""

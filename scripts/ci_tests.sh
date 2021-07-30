@@ -10,8 +10,9 @@ readonly project_name=terraform-kubernetes-agent
 
 TEST_CASES=(
   examples/custom-interface-connection-size
-  examples/custom-server-url
+  examples/custom-proxy-url
   examples/custom-resource-allocation
+  examples/custom-server-url
   examples/custom-tolerations
   examples/default
 )
