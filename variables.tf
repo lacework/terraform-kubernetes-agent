@@ -57,6 +57,12 @@ variable "namespace" {
   default     = "default"
 }
 
+variable "revision_history_limit" {
+  type        = number
+  description = "The number of revision hitory to keep."
+  default     = 10
+}
+
 variable "pod_service_account" {
   type        = string
   description = "The Kubernetes ServiceAccount to use in the pod template"
