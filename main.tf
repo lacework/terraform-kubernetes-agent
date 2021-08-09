@@ -39,6 +39,8 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
   }
 
   spec {
+    revision_history_limit = var.revision_history_limit
+
     selector {
       match_labels = {
         name = "lacework"
