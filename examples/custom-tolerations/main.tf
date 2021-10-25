@@ -16,6 +16,13 @@ module "lacework_k8s_datacollector" {
       key      = "spotInstance",
       operator = "Exists",
       effect   = "NoSchedule"
+    },
+    {
+      operator = "Exists",
+      effect   = "NoSchedule"
+    },
+    {
+      operator = "Exists"
     }
   ]
 }
