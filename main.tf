@@ -64,10 +64,10 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
         dynamic "toleration" {
           for_each = var.tolerations
           content {
-            key      = toleration.value["key"]
+            key      = lookup(toleration.value, "key", "")
             operator = lookup(toleration.value, "operator", "Equal")
             value    = lookup(toleration.value, "operator", "Equal") == "Exists" ? "" : lookup(toleration.value, "value", "")
-            effect   = toleration.value["effect"]
+            effect   = lookup(toleration.value, "effect", "")
           }
         }
 
