@@ -71,7 +71,7 @@ variable "pod_service_account" {
 
 variable "pod_cpu_request" {
   type        = string
-  default     = "100m"
+  default     = "200m"
   description = "The amount of CPU units to request for the Lacework datacollector pod"
 }
 
@@ -83,13 +83,13 @@ variable "pod_mem_request" {
 
 variable "pod_cpu_limit" {
   type        = string
-  default     = "1"
+  default     = "500m"
   description = "The limit of CPU units for the Lacework datacollector pod"
 }
 
 variable "pod_mem_limit" {
   type        = string
-  default     = "1024Mi"
+  default     = "1450Mi"
   description = "The limit of Memory for the Lacework datacollector pod"
 }
 
