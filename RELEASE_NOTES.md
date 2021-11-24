@@ -1,9 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v1.4.1`.
+Another day, another release. These are the release notes for the version `v1.4.2`.
 
-## Bug Fixes
-* fix: improved support for various tolerations (Alan Nix)([85bcc18](https://github.com/lacework/terraform-kubernetes-agent/commit/85bcc180a3e8e4f3a275b2da0430adb07e5cd32e))
-## Documentation Updates
-* docs: Add contributing documentation (#35) (Darren)([30fd5e8](https://github.com/lacework/terraform-kubernetes-agent/commit/30fd5e8adb3d39cdaafefb440324cdf85f5c66be))
+## Refactor
+* refactor: match resource requests/limits with Helm (#38) (Chris Golden)([04a4295](https://github.com/lacework/terraform-kubernetes-agent/commit/04a4295c9bc79999a453aa3852f9486c56fb8b35))
 ## Other Changes
-* ci: version bump to v1.4.1-dev (Lacework)([0ae3dd6](https://github.com/lacework/terraform-kubernetes-agent/commit/0ae3dd61f6aa3166963db3b1af7bb05c2c610f7b))
+* ci: version bump to v1.4.2-dev (Lacework)([7ac5201](https://github.com/lacework/terraform-kubernetes-agent/commit/7ac5201b72c8133e99e610c93139395d9164bf92))
