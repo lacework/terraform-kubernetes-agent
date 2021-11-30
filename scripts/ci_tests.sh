@@ -14,6 +14,7 @@ TEST_CASES=(
   examples/custom-resource-allocation
   examples/custom-server-url
   examples/custom-tolerations
+  examples/custom-upgrade-behavior
   examples/default
 )
 

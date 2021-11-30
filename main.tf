@@ -1,6 +1,7 @@
 locals {
   config_data = templatefile("${path.module}/config.tmpl", {
     lacework_access_token                    = var.lacework_access_token,
+    lacework_agent_autoupgrade               = var.lacework_agent_autoupgrade
     lacework_agent_interface_connection_size = var.lacework_agent_interface_connection_size
     lacework_agent_tags                      = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
     lacework_proxy_url                       = var.lacework_proxy_url

@@ -21,6 +21,12 @@ variable "lacework_agent_tags" {
   default     = {}
 }
 
+variable "lacework_agent_autoupgrade" {
+  type        = bool
+  description = "Boolean value to control whether or not the agent should automatically upgrade to newer versions when available"
+  default     = true
+}
+
 variable "lacework_config_name" {
   type        = string
   description = "The name for the Lacework agent configuration within Kubernetes"
