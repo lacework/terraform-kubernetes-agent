@@ -78,6 +78,11 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           image             = var.lacework_image
           image_pull_policy = var.lacework_image_pull_policy
 
+          env {
+            name  = "LaceworkLogStdout"
+            value = "yes"
+          }
+
           resources {
             requests = {
               cpu    = var.pod_cpu_request
