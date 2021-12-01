@@ -1,7 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v1.4.2`.
+Another day, another release. These are the release notes for the version `v1.5.0`.
 
-## Refactor
-* refactor: match resource requests/limits with Helm (#38) (Chris Golden)([04a4295](https://github.com/lacework/terraform-kubernetes-agent/commit/04a4295c9bc79999a453aa3852f9486c56fb8b35))
+## Features
+* feat: add autoupgrade flag and enable stdout logging (#40) (Chris Golden)([2fa80eb](https://github.com/lacework/terraform-kubernetes-agent/commit/2fa80eb56a61ccd57c3f5d902a7c1a15b803f525))
 ## Other Changes
-* ci: version bump to v1.4.2-dev (Lacework)([7ac5201](https://github.com/lacework/terraform-kubernetes-agent/commit/7ac5201b72c8133e99e610c93139395d9164bf92))
+* ci: version bump to v1.4.3-dev (Lacework)([c60cdfa](https://github.com/lacework/terraform-kubernetes-agent/commit/c60cdfa0e5c1edcda4447864bd51e286afa37d20))
