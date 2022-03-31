@@ -1,7 +1,6 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v1.5.0`.
+Another day, another release. These are the release notes for the version `v1.5.1`.
 
-## Features
-* feat: add autoupgrade flag and enable stdout logging (#40) (Chris Golden)([2fa80eb](https://github.com/lacework/terraform-kubernetes-agent/commit/2fa80eb56a61ccd57c3f5d902a7c1a15b803f525))
 ## Other Changes
-* ci: version bump to v1.4.3-dev (Lacework)([c60cdfa](https://github.com/lacework/terraform-kubernetes-agent/commit/c60cdfa0e5c1edcda4447864bd51e286afa37d20))
+* chore: update PR template (#42) (Darren)([5986190](https://github.com/lacework/terraform-kubernetes-agent/commit/59861902c3f3343e06e3e7bc015c7dea826b2e03))
+* ci: version bump to v1.5.1-dev (Lacework)([a27ea66](https://github.com/lacework/terraform-kubernetes-agent/commit/a27ea66579bf3a64dacfdf603576d163cd666768))
