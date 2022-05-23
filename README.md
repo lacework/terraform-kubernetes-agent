@@ -13,53 +13,54 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 
 ## Requirements
 
-| Name       | Version    |
-| ---------- | ---------- |
-| terraform  | >= 0.12.31 |
-| kubernetes | >= 2.0.0   |
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0.0 |
 
 ## Providers
 
-| Name       | Version  |
-| ---------- | -------- |
-| kubernetes | >= 2.0.0 |
-| random     | n/a      |
+| Name | Version |
+|------|---------|
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
 
 ## Resources
 
-| Name                                                                                                                                        | Type     |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Name | Type |
+|------|------|
 | [kubernetes_daemonset.lacework_datacollector](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/daemonset) | resource |
-| [kubernetes_secret.lacework_config](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret)              | resource |
-| [random_id.config_name_tail](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id)                             | resource |
+| [kubernetes_secret.lacework_config](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret) | resource |
+| [random_id.config_name_tail](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 
 ## Inputs
 
-| Name                                     | Description                                                            | Type                | Default                                                                                               | Required |
-| ---------------------------------------- | ---------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- | :------: |
-| lacework_access_token                    | The access token for the Lacework agent                                | `string`            | n/a                                                                                                   |   yes    |
-| lacework_agent_interface_connection_size | Desired value for the InterfaceConnectionSize Lacework agent parameter | `string`            | `""`                                                                                                  |    no    |
-| lacework_agent_name                      | The name for the Lacework agent service within Kubernetes              | `string`            | `"lacework-agent"`                                                                                    |    no    |
-| lacework_agent_tags                      | A map/dictionary of Tags to be assigned to the Lacework datacollector  | `map(string)`       | `{}`                                                                                                  |    no    |
-| lacework_config_name                     | The name for the Lacework agent configuration within Kubernetes        | `string`            | `"lacework-config"`                                                                                   |    no    |
-| lacework_image                           | The name of the image to use for deploying the Lacework datacollector  | `string`            | `"lacework/datacollector"`                                                                            |    no    |
-| lacework_image_pull_policy               | The pull policy to use for deploying the Lacework datacollector        | `string`            | `"Always"`                                                                                            |    no    |
-| lacework_proxy_url                       | The proxy URL for the Lacework agent                                   | `string`            | `""`                                                                                                  |    no    |
-| lacework_server_url                      | The server URL for the Lacework agent                                  | `string`            | `""`                                                                                                  |    no    |
-| namespace                                | The Kubernetes namespace in which to deploy                            | `string`            | `"default"`                                                                                           |    no    |
-| revision_history_limit                   | The number of revision hitory to keep                                  | `number`            | `10`                                                                                                  |    no    |
-| pod_cpu_limit                            | The limit of CPU units for the Lacework datacollector pod              | `string`            | `"500m"`                                                                                                 |    no    |
-| pod_cpu_request                          | The amount of CPU units to request for the Lacework datacollector pod  | `string`            | `"200m"`                                                                                              |    no    |
-| pod_mem_limit                            | The limit of Memory for the Lacework datacollector pod                 | `string`            | `"1450Mi"`                                                                                            |    no    |
-| pod_mem_request                          | The amount of Memory to request for the Lacework datacollector pod     | `string`            | `"512Mi"`                                                                                             |    no    |
-| pod_service_account                      | The Kubernetes ServiceAccount to use in the pod template               | `string`            | `""`                                                                                                  |    no    |
-| tolerations                              | A list of Kubernetes Tolerations to apply to the DaemonSet definition  | `list(map(string))` | <pre>[<br> {<br> "effect": "NoSchedule",<br> "key": "node-role.kubernetes.io/master"<br> }<br>]</pre> |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_lacework_access_token"></a> [lacework\_access\_token](#input\_lacework\_access\_token) | The access token for the Lacework agent | `string` | n/a | yes |
+| <a name="input_lacework_agent_autoupgrade"></a> [lacework\_agent\_autoupgrade](#input\_lacework\_agent\_autoupgrade) | Boolean value to control whether or not the agent should automatically upgrade to newer versions when available | `bool` | `true` | no |
+| <a name="input_lacework_agent_interface_connection_size"></a> [lacework\_agent\_interface\_connection\_size](#input\_lacework\_agent\_interface\_connection\_size) | Desired value for the InterfaceConnectionSize Lacework agent parameter | `string` | `""` | no |
+| <a name="input_lacework_agent_name"></a> [lacework\_agent\_name](#input\_lacework\_agent\_name) | The name for the Lacework agent service within Kubernetes | `string` | `"lacework-agent"` | no |
+| <a name="input_lacework_agent_tags"></a> [lacework\_agent\_tags](#input\_lacework\_agent\_tags) | A map/dictionary of Tags to be assigned to the Lacework datacollector | `map(string)` | `{}` | no |
+| <a name="input_lacework_config_name"></a> [lacework\_config\_name](#input\_lacework\_config\_name) | The name for the Lacework agent configuration within Kubernetes | `string` | `"lacework-config"` | no |
+| <a name="input_lacework_image"></a> [lacework\_image](#input\_lacework\_image) | The name of the image to use for deploying the Lacework datacollector | `string` | `"lacework/datacollector"` | no |
+| <a name="input_lacework_image_pull_policy"></a> [lacework\_image\_pull\_policy](#input\_lacework\_image\_pull\_policy) | The pull policy to use for deploying the Lacework datacollector | `string` | `"Always"` | no |
+| <a name="input_lacework_proxy_url"></a> [lacework\_proxy\_url](#input\_lacework\_proxy\_url) | The proxy URL for the Lacework agent | `string` | `""` | no |
+| <a name="input_lacework_server_url"></a> [lacework\_server\_url](#input\_lacework\_server\_url) | The server URL for the Lacework agent | `string` | `""` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The Kubernetes namespace in which to deploy | `string` | `"default"` | no |
+| <a name="input_pod_cpu_limit"></a> [pod\_cpu\_limit](#input\_pod\_cpu\_limit) | The limit of CPU units for the Lacework datacollector pod | `string` | `"500m"` | no |
+| <a name="input_pod_cpu_request"></a> [pod\_cpu\_request](#input\_pod\_cpu\_request) | The amount of CPU units to request for the Lacework datacollector pod | `string` | `"200m"` | no |
+| <a name="input_pod_mem_limit"></a> [pod\_mem\_limit](#input\_pod\_mem\_limit) | The limit of Memory for the Lacework datacollector pod | `string` | `"1450Mi"` | no |
+| <a name="input_pod_mem_request"></a> [pod\_mem\_request](#input\_pod\_mem\_request) | The amount of Memory to request for the Lacework datacollector pod | `string` | `"512Mi"` | no |
+| <a name="input_pod_service_account"></a> [pod\_service\_account](#input\_pod\_service\_account) | The Kubernetes ServiceAccount to use in the pod template | `string` | `""` | no |
+| <a name="input_revision_history_limit"></a> [revision\_history\_limit](#input\_revision\_history\_limit) | The number of revision hitory to keep. | `number` | `10` | no |
+| <a name="input_tolerations"></a> [tolerations](#input\_tolerations) | A list of Kubernetes Tolerations to apply to the DaemonSet definition | `list(map(string))` | <pre>[<br>  {<br>    "effect": "NoSchedule",<br>    "key": "node-role.kubernetes.io/master"<br>  }<br>]</pre> | no |
 
 ## Outputs
 
-| Name                           | Description                                                        |
-| ------------------------------ | ------------------------------------------------------------------ |
-| lacework_config_name           | Name of the Kubernetes Secret containing the Lacework config       |
-| lacework_config_version        | Version of the Kubernetes Secret containing the Lacework config    |
-| lacework_datacollector_name    | Name of the Kubernetes DaemonSet for the Lacework datacollector    |
-| lacework_datacollector_version | Version of the Kubernetes DaemonSet for the Lacework datacollector |
+| Name | Description |
+|------|-------------|
+| <a name="output_lacework_config_name"></a> [lacework\_config\_name](#output\_lacework\_config\_name) | Name of the Kubernetes Secret containing the Lacework config |
+| <a name="output_lacework_config_version"></a> [lacework\_config\_version](#output\_lacework\_config\_version) | Version of the Kubernetes Secret containing the Lacework config |
+| <a name="output_lacework_datacollector_name"></a> [lacework\_datacollector\_name](#output\_lacework\_datacollector\_name) | Name of the Kubernetes DaemonSet for the Lacework datacollector |
+| <a name="output_lacework_datacollector_version"></a> [lacework\_datacollector\_version](#output\_lacework\_datacollector\_version) | Version of the Kubernetes DaemonSet for the Lacework datacollector |
