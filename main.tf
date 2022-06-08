@@ -41,7 +41,6 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
 
   spec {
     revision_history_limit = var.revision_history_limit
-
     selector {
       match_labels = {
         name = "lacework"
@@ -61,7 +60,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       }
 
       spec {
-
+        priority_class_name = var.priority_class_name
         dynamic "toleration" {
           for_each = var.tolerations
           content {
