@@ -53,6 +53,7 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | <a name="input_pod_mem_limit"></a> [pod\_mem\_limit](#input\_pod\_mem\_limit) | The limit of Memory for the Lacework datacollector pod | `string` | `"1450Mi"` | no |
 | <a name="input_pod_mem_request"></a> [pod\_mem\_request](#input\_pod\_mem\_request) | The amount of Memory to request for the Lacework datacollector pod | `string` | `"512Mi"` | no |
 | <a name="input_pod_service_account"></a> [pod\_service\_account](#input\_pod\_service\_account) | The Kubernetes ServiceAccount to use in the pod template | `string` | `""` | no |
+| <a name="input_priority_class_name"></a> [priority\_class\_name](#input\_priority\_class\_name) | Indicates the pod's priority. Requires an existing priority class name resource if not 'system-node-critical' and 'system-cluster-critical' | `string` | `""` | no |
 | <a name="input_revision_history_limit"></a> [revision\_history\_limit](#input\_revision\_history\_limit) | The number of revision hitory to keep. | `number` | `10` | no |
 | <a name="input_tolerations"></a> [tolerations](#input\_tolerations) | A list of Kubernetes Tolerations to apply to the DaemonSet definition | `list(map(string))` | <pre>[<br>  {<br>    "effect": "NoSchedule",<br>    "key": "node-role.kubernetes.io/master"<br>  }<br>]</pre> | no |
 

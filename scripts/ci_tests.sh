@@ -15,6 +15,7 @@ TEST_CASES=(
   examples/custom-server-url
   examples/custom-tolerations
   examples/custom-upgrade-behavior
+  examples/priority-class-name
   examples/default
 )
 
