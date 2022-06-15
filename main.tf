@@ -7,13 +7,14 @@ locals {
     lacework_proxy_url                       = var.lacework_proxy_url
     lacework_server_url                      = var.lacework_server_url
   })
-  config_name = "${var.lacework_config_name}-${random_id.config_name_tail.hex}"
+  config_name   = "${var.lacework_config_name}-${random_id.config_name_tail.hex}"
+  merged_config = jsonencode(merge(jsondecode(local.config_data), var.lacework_agent_configuration))
 }
 
 resource "random_id" "config_name_tail" {
   byte_length = 8
   keepers = {
-    data = local.config_data
+    data = local.merged_config
   }
 }
 
@@ -24,7 +25,7 @@ resource "kubernetes_secret" "lacework_config" {
   }
 
   data = {
-    "config.json" = local.config_data
+    "config.json" = local.merged_config
   }
 }
 
@@ -71,6 +72,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
 
+        priority_class_name = var.pod_priority_class_name
         service_account_name = var.pod_service_account
 
         container {

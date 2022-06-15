@@ -9,6 +9,7 @@ set -eou pipefail
 readonly project_name=terraform-kubernetes-agent
 
 TEST_CASES=(
+  examples/custom-agent-configuration
   examples/custom-interface-connection-size
   examples/custom-proxy-url
   examples/custom-resource-allocation
