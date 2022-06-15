@@ -75,6 +75,12 @@ variable "revision_history_limit" {
   default     = 10
 }
 
+variable "pod_priority_class_name" {
+  type        = string
+  description = "The Kubernetes Priority Class to use in the pod template"
+  default     = ""
+}
+
 variable "pod_service_account" {
   type        = string
   description = "The Kubernetes ServiceAccount to use in the pod template"
