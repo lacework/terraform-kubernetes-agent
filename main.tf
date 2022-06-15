@@ -61,7 +61,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
       }
 
       spec {
-        priority_class_name = var.priority_class_name
+
         dynamic "toleration" {
           for_each = var.tolerations
           content {

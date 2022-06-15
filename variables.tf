@@ -77,7 +77,7 @@ variable "revision_history_limit" {
 
 variable "pod_priority_class_name" {
   type        = string
-  description = "The Kubernetes Priority Class to use in the pod template"
+  description = "Indicates the pod's priority. Requires an existing priority class name resource if not 'system-node-critical' and 'system-cluster-critical'"
   default     = ""
 }
 
@@ -115,10 +115,4 @@ variable "tolerations" {
   type        = list(map(string))
   default     = [{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]
   description = "A list of Kubernetes Tolerations to apply to the DaemonSet definition"
-}
-
-variable "priority_class_name" {
-  type        = string
-  description = "Indicates the pod's priority. Requires an existing priority class name resource if not 'system-node-critical' and 'system-cluster-critical'"
-  default     = ""
 }
