@@ -16,7 +16,7 @@ resource "lacework_agent_access_token" "k8s" {
 
 module "lacework_k8s_datacollector" {
   source  = "lacework/agent/kubernetes"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   lacework_access_token = lacework_agent_access_token.k8s.token
 }

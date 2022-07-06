@@ -27,6 +27,12 @@ variable "lacework_agent_autoupgrade" {
   default     = true
 }
 
+variable "lacework_agent_configuration" {
+  type        = map(any)
+  description = "A map/dictionary of configuration parameters for the Lacework datacollector"
+  default     = {}
+}
+
 variable "lacework_config_name" {
   type        = string
   description = "The name for the Lacework agent configuration within Kubernetes"
@@ -69,6 +75,12 @@ variable "revision_history_limit" {
   default     = 10
 }
 
+variable "pod_priority_class_name" {
+  type        = string
+  description = "Indicates the pod's priority. Requires an existing priority class name resource if not 'system-node-critical' and 'system-cluster-critical'"
+  default     = ""
+}
+
 variable "pod_service_account" {
   type        = string
   description = "The Kubernetes ServiceAccount to use in the pod template"
@@ -103,10 +115,4 @@ variable "tolerations" {
   type        = list(map(string))
   default     = [{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]
   description = "A list of Kubernetes Tolerations to apply to the DaemonSet definition"
-}
-
-variable "priority_class_name" {
-  type        = string
-  description = "Indicates the pod's priority. Requires an existing priority class name resource if not 'system-node-critical' and 'system-cluster-critical'"
-  default     = ""
 }
