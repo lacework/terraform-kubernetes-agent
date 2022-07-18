@@ -72,7 +72,9 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
 
-        priority_class_name = var.pod_priority_class_name
+        node_selector = var.node_selector
+
+        priority_class_name  = var.pod_priority_class_name
         service_account_name = var.pod_service_account
 
         container {

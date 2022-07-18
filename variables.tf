@@ -116,3 +116,9 @@ variable "tolerations" {
   default     = [{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]
   description = "A list of Kubernetes Tolerations to apply to the DaemonSet definition"
 }
+
+variable "node_selector" {
+  type        = map(any)
+  default     = null
+  description = "A map of key:value pairs of node labels to specify which nodes to deploy the DaemonsSet to"
+}
