@@ -1,0 +1,29 @@
+{
+%{ if ! lacework_agent_autoupgrade }
+    "autoupgrade": "disable",
+%{ endif }
+%{ if lacework_agent_interface_connection_size != "" }
+    "InterfaceConnectionSize": "${lacework_agent_interface_connection_size}",
+%{ endif }
+%{ if lacework_proxy_url != "" }
+    "proxyurl": "${lacework_proxy_url}",
+%{ endif }
+%{ if lacework_server_url != "" }
+    "serverurl": "${lacework_server_url}",
+%{ endif }
+%{ if lacework_cluster_type != "" && lacework_cluster_region != ""}
+    "k8snodecollector": {
+%{ if lacework_cluster_type != "" }
+        "k8sclustertype": "${lacework_cluster_type}",
+%{ endif }
+%{ if lacework_cluster_region != "" }
+        "clusterregion": "${lacework_cluster_region}",
+%{ endif }
+%{ if lacework_cluster_exclusive }
+        "exclusivemode": "true",
+%{ endif }
+        "state": "enabled"
+    },
+%{ endif }
+    "tags": ${lacework_agent_tags}
+}

@@ -1,31 +1,68 @@
 locals {
-  config_data = templatefile("${path.module}/config.tmpl", {
-    lacework_access_token                    = var.lacework_access_token,
+  cluster_config_data = templatefile("${path.module}/config_cluster.tmpl", {
+    lacework_cluster_name   = var.lacework_cluster_name
+    lacework_cluster_region = var.lacework_cluster_region
+    lacework_cluster_type   = var.lacework_cluster_type
+    lacework_server_url     = var.lacework_server_url
+  })
+  node_config_data = templatefile("${path.module}/config_node.tmpl", {
     lacework_agent_autoupgrade               = var.lacework_agent_autoupgrade
     lacework_agent_interface_connection_size = var.lacework_agent_interface_connection_size
     lacework_agent_tags                      = jsonencode(merge({ "Env" : "k8s" }, var.lacework_agent_tags))
+    lacework_cluster_exclusive               = var.lacework_cluster_exclusive
+    lacework_cluster_region                  = var.lacework_cluster_region
+    lacework_cluster_type                    = var.lacework_cluster_type
     lacework_proxy_url                       = var.lacework_proxy_url
     lacework_server_url                      = var.lacework_server_url
   })
-  config_name   = "${var.lacework_config_name}-${random_id.config_name_tail.hex}"
-  merged_config = jsonencode(merge(jsondecode(local.config_data), var.lacework_agent_configuration))
+  cluster_config_name   = "${var.lacework_config_name}-${random_id.cluster_config_name_tail.hex}"
+  node_config_name      = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
+  merged_cluster_config = var.enable_cluster_agent ? yamlencode(merge(yamldecode(local.cluster_config_data), var.lacework_cluster_configuration)) : ""
+  merged_node_config    = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
 }
 
-resource "random_id" "config_name_tail" {
+resource "random_id" "node_config_name_tail" {
   byte_length = 8
   keepers = {
-    data = local.merged_config
+    data = local.merged_node_config
+  }
+}
+
+resource "random_id" "cluster_config_name_tail" {
+  byte_length = 8
+  keepers = {
+    data = local.merged_cluster_config
+  }
+}
+
+resource "kubernetes_secret" "lacework_access_token" {
+  metadata {
+    name      = "${var.lacework_agent_name}-access-token"
+    namespace = var.namespace
+    labels = {
+      tier = "monitoring"
+      app  = var.lacework_agent_name
+    }
+  }
+
+  data = {
+    "agent-access-token" = var.lacework_access_token
   }
 }
 
 resource "kubernetes_secret" "lacework_config" {
   metadata {
-    name      = local.config_name
+    name      = local.node_config_name
     namespace = var.namespace
+
+    labels = {
+      tier = "monitoring"
+      app  = "${var.lacework_agent_name}-cluster"
+    }
   }
 
   data = {
-    "config.json" = local.merged_config
+    "config.json" = local.merged_node_config
   }
 }
 
@@ -62,6 +99,30 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
 
       spec {
 
+        affinity {
+          node_affinity {
+            required_during_scheduling_ignored_during_execution {
+              node_selector_term {
+                match_expressions {
+                  key      = "kubernetes.io/arch"
+                  operator = "In"
+                  values = [
+                    "amd64",
+                    "arm64"
+                  ]
+                }
+                match_expressions {
+                  key      = "kubernetes.io/os"
+                  operator = "In"
+                  values = [
+                    "linux"
+                  ]
+                }
+              }
+            }
+          }
+        }
+
         dynamic "toleration" {
           for_each = var.tolerations
           content {
@@ -87,6 +148,16 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             value = "yes"
           }
 
+          env {
+            name = "LaceworkAccessToken"
+            value_from {
+              secret_key_ref {
+                name = "${var.lacework_agent_name}-access-token"
+                key  = "agent-access-token"
+              }
+            }
+          }
+
           resources {
             requests = {
               cpu    = var.pod_cpu_request
@@ -99,7 +170,11 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
 
           security_context {
-            privileged = true
+            privileged                 = true
+            run_as_non_root            = false
+            run_as_user                = 0
+            read_only_root_filesystem  = false
+            allow_privilege_escalation = true
           }
 
           volume_mount {
@@ -109,14 +184,6 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           volume_mount {
             name       = "dev"
             mount_path = "/dev"
-          }
-          volume_mount {
-            name       = "run-sock"
-            mount_path = "/var/run/docker.sock"
-          }
-          volume_mount {
-            name       = "run-pid"
-            mount_path = "/var/run/docker.pid"
           }
           volume_mount {
             name       = "sys"
@@ -141,6 +208,10 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             mount_path = "/var/lib/lacework/collector"
           }
           volume_mount {
+            name       = "hostlaceworkcontroller"
+            mount_path = "/var/lib/lacework/controller"
+          }
+          volume_mount {
             name       = "hostroot"
             mount_path = "/laceworkfim"
             read_only  = true
@@ -150,25 +221,15 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             mount_path = "/etc/podinfo"
           }
         }
-        host_network = true
-        host_pid     = true
+        termination_grace_period_seconds = 20
+        host_network                     = true
+        host_pid                         = true
+        dns_policy                       = "ClusterFirstWithHostNet"
 
         volume {
           name = "dev"
           host_path {
             path = "/dev"
-          }
-        }
-        volume {
-          name = "run-sock"
-          host_path {
-            path = "/var/run/docker.sock"
-          }
-        }
-        volume {
-          name = "run-pid"
-          host_path {
-            path = "/var/run/docker.pid"
           }
         }
         volume {
@@ -208,9 +269,15 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
         volume {
+          name = "hostlaceworkcontroller"
+          host_path {
+            path = "/var/lib/lacework/controller"
+          }
+        }
+        volume {
           name = "config"
           secret {
-            secret_name = local.config_name
+            secret_name = local.node_config_name
             items {
               key  = "config.json"
               path = "config.json"
@@ -232,9 +299,171 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
                 field_path = "metadata.annotations"
               }
             }
+            items {
+              path = "name"
+              field_ref {
+                field_path = "metadata.name"
+              }
+            }
+            items {
+              path = "poduid"
+              field_ref {
+                field_path = "metadata.uid"
+              }
+            }
+            items {
+              path = "namespace"
+              field_ref {
+                field_path = "metadata.namespace"
+              }
+            }
           }
         }
       }
     }
   }
+}
+
+resource "kubernetes_service_account" "lacework_k8s_collector" {
+  count = var.enable_cluster_agent ? 1 : 0
+
+  metadata {
+    name      = "${var.lacework_agent_name}-cluster-sa"
+    namespace = var.namespace
+  }
+}
+
+resource "kubernetes_cluster_role" "lacework_k8s_collector" {
+  count = var.enable_cluster_agent ? 1 : 0
+
+  metadata {
+    name = "${var.lacework_agent_name}-cluster-role"
+  }
+
+  rule {
+    api_groups = ["*"]
+    resources  = ["*"]
+    verbs      = ["get", "list"]
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "lacework_k8s_collector" {
+  count = var.enable_cluster_agent ? 1 : 0
+
+  metadata {
+    name = "${var.lacework_agent_name}-cluster-role-binding"
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "${var.lacework_agent_name}-cluster-role"
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = "${var.lacework_agent_name}-cluster-sa"
+    namespace = var.namespace
+  }
+
+  depends_on = [
+    kubernetes_service_account.lacework_k8s_collector,
+    kubernetes_cluster_role.lacework_k8s_collector
+  ]
+}
+
+resource "kubernetes_secret" "lacework_k8s_collector" {
+  count = var.enable_cluster_agent ? 1 : 0
+
+  metadata {
+    name      = local.cluster_config_name
+    namespace = var.namespace
+
+    labels = {
+      tier = "monitoring"
+      app  = "${var.lacework_agent_name}-cluster"
+    }
+  }
+
+  data = {
+    "config.yaml" = local.merged_cluster_config
+  }
+}
+
+resource "kubernetes_deployment" "lacework_k8s_collector" {
+  count = var.enable_cluster_agent ? 1 : 0
+
+  metadata {
+    name      = "${var.lacework_agent_name}-cluster"
+    namespace = var.namespace
+
+    labels = {
+      tier = "monitoring"
+      app  = "${var.lacework_agent_name}-cluster"
+    }
+  }
+
+  spec {
+    selector {
+      match_labels = {
+        name = "${var.lacework_agent_name}-cluster"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          name = "${var.lacework_agent_name}-cluster"
+        }
+
+        annotations = {
+          lacework_config_version = kubernetes_secret.lacework_k8s_collector[0].metadata.0.resource_version
+        }
+      }
+
+      spec {
+        service_account_name             = "${var.lacework_agent_name}-cluster-sa"
+        termination_grace_period_seconds = 20
+
+        container {
+          name              = "${var.lacework_agent_name}-cluster"
+          image             = var.lacework_cluster_image
+          image_pull_policy = var.lacework_cluster_image_pull_policy
+
+          env {
+            name = "LaceworkAccessToken"
+            value_from {
+              secret_key_ref {
+                name = "${var.lacework_agent_name}-access-token"
+                key  = "agent-access-token"
+              }
+            }
+          }
+
+          volume_mount {
+            name       = "cfgmap"
+            mount_path = "/config"
+          }
+        }
+
+        volume {
+          name = "cfgmap"
+          secret {
+            secret_name = local.cluster_config_name
+            items {
+              key  = "config.yaml"
+              path = "config.yaml"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    kubernetes_service_account.lacework_k8s_collector,
+    kubernetes_cluster_role.lacework_k8s_collector,
+    kubernetes_secret.lacework_k8s_collector,
+    kubernetes_cluster_role_binding.lacework_k8s_collector,
+  ]
 }
