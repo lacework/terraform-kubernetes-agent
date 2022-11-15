@@ -143,6 +143,14 @@ resource "kubernetes_deployment" "lacework_k8s_collector" {
             }
           }
 
+          security_context {
+            privileged                 = false
+            run_as_non_root            = true
+            run_as_user                = 5000 #TODO update to official UID
+            read_only_root_filesystem  = true
+            allow_privilege_escalation = false
+          }
+
           volume_mount {
             name       = "cfgmap"
             mount_path = "/config"
