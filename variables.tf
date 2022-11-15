@@ -45,6 +45,18 @@ variable "lacework_cluster_configuration" {
   default     = {}
 }
 
+variable "lacework_cluster_cpu_limit" {
+  type        = string
+  default     = "500m"
+  description = "The limit of CPU units for the Lacework K8s collector pod"
+}
+
+variable "lacework_cluster_cpu_request" {
+  type        = string
+  default     = "200m"
+  description = "The amount of CPU units to request for the Lacework K8s collector pod"
+}
+
 variable "lacework_cluster_exclusive" {
   type        = bool
   description = "A boolean representing whether the Lacework K8s collector will operate in exclusive mode"
@@ -79,6 +91,18 @@ variable "lacework_cluster_image_pull_policy" {
   type        = string
   description = "The pull policy to use for deploying the Lacework K8s collector"
   default     = "Always"
+}
+
+variable "lacework_cluster_mem_limit" {
+  type        = string
+  default     = "1450Mi"
+  description = "The limit of Memory for the Lacework K8s collector pod"
+}
+
+variable "lacework_cluster_mem_request" {
+  type        = string
+  default     = "512Mi"
+  description = "The amount of Memory to request for the Lacework K8s collector pod"
 }
 
 variable "lacework_config_name" {

@@ -132,6 +132,17 @@ resource "kubernetes_deployment" "lacework_k8s_collector" {
             }
           }
 
+          resources {
+            requests = {
+              cpu    = var.lacework_cluster_cpu_request
+              memory = var.lacework_cluster_mem_request
+            }
+            limits = {
+              cpu    = var.lacework_cluster_cpu_limit
+              memory = var.lacework_cluster_mem_limit
+            }
+          }
+
           volume_mount {
             name       = "cfgmap"
             mount_path = "/config"
