@@ -1,3 +1,9 @@
+variable "enable_cluster_agent" {
+  type        = bool
+  default     = false
+  description = "A boolean representing whether the Lacework cluster agent should be deployed"
+}
+
 variable "lacework_access_token" {
   type        = string
   description = "The access token for the Lacework agent"
@@ -31,6 +37,72 @@ variable "lacework_agent_configuration" {
   type        = map(any)
   description = "A map/dictionary of configuration parameters for the Lacework datacollector"
   default     = {}
+}
+
+variable "lacework_cluster_configuration" {
+  type        = map(any)
+  description = "A map/dictionary of configuration parameters for the Lacework K8s collector"
+  default     = {}
+}
+
+variable "lacework_cluster_cpu_limit" {
+  type        = string
+  default     = "500m"
+  description = "The limit of CPU units for the Lacework K8s collector pod"
+}
+
+variable "lacework_cluster_cpu_request" {
+  type        = string
+  default     = "200m"
+  description = "The amount of CPU units to request for the Lacework K8s collector pod"
+}
+
+variable "lacework_cluster_exclusive" {
+  type        = bool
+  description = "A boolean representing whether the Lacework K8s collector will operate in exclusive mode"
+  default     = false
+}
+
+variable "lacework_cluster_name" {
+  type        = string
+  description = "The name of the K8s cluster that the Lacework K8s collector will monitor"
+  default     = ""
+}
+
+variable "lacework_cluster_region" {
+  type        = string
+  description = "The region of the K8s cluster that the Lacework K8s collector will monitor"
+  default     = ""
+}
+
+variable "lacework_cluster_type" {
+  type        = string
+  description = "The type of the K8s cluster that the Lacework K8s collector will monitor"
+  default     = ""
+}
+
+variable "lacework_cluster_image" {
+  type        = string
+  description = "The name of the image to use for deploying the Lacework K8s collector"
+  default     = "lacework/k8scollector"
+}
+
+variable "lacework_cluster_image_pull_policy" {
+  type        = string
+  description = "The pull policy to use for deploying the Lacework K8s collector"
+  default     = "Always"
+}
+
+variable "lacework_cluster_mem_limit" {
+  type        = string
+  default     = "1450Mi"
+  description = "The limit of Memory for the Lacework K8s collector pod"
+}
+
+variable "lacework_cluster_mem_request" {
+  type        = string
+  default     = "512Mi"
+  description = "The amount of Memory to request for the Lacework K8s collector pod"
 }
 
 variable "lacework_config_name" {
@@ -112,8 +184,17 @@ variable "pod_mem_limit" {
 }
 
 variable "tolerations" {
-  type        = list(map(string))
-  default     = [{ key = "node-role.kubernetes.io/master", effect = "NoSchedule" }]
+  type = list(map(string))
+  default = [
+    {
+      key    = "node-role.kubernetes.io/infra",
+      effect = "NoSchedule"
+    },
+    {
+      key    = "node-role.kubernetes.io/master",
+      effect = "NoSchedule"
+    }
+  ]
   description = "A list of Kubernetes Tolerations to apply to the DaemonSet definition"
 }
 

@@ -1,0 +1,16 @@
+%{ if lacework_server_url != "" }
+serverurl: ${lacework_server_url}
+%{ endif }
+%{ if lacework_cluster_type != "" || lacework_cluster_name != ""}
+clusterparams:
+%{ if lacework_cluster_type != "" }
+    clustertype: ${lacework_cluster_type}
+%{ endif }
+%{ if lacework_cluster_name != "" }
+    clustername: ${lacework_cluster_name}
+%{ endif }
+%{ endif }
+%{ if lacework_cluster_region != "" }
+cloudproviderparams:
+    region: ${lacework_cluster_region}
+%{ endif }

@@ -10,6 +10,7 @@ readonly project_name=terraform-kubernetes-agent
 
 TEST_CASES=(
   examples/custom-agent-configuration
+  examples/custom-cluster-analysis
   examples/custom-interface-connection-size
   examples/custom-priority-class-name
   examples/custom-proxy-url
