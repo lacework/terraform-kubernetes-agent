@@ -8,5 +8,10 @@ module "lacework_k8s_datacollector" {
     "privileges" : {
       "capsmode" : "enabled"
     }
+    "fim" : {
+      "runat": "23:50"
+      "mode": "enable"
+    }
+    "cpurequest": "200m"
   }
 }
