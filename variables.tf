@@ -34,7 +34,7 @@ variable "lacework_agent_autoupgrade" {
 }
 
 variable "lacework_agent_configuration" {
-  type        = map(any)
+  type        = any
   description = "A map/dictionary of configuration parameters for the Lacework datacollector"
   default     = {}
 }
