@@ -183,6 +183,12 @@ variable "pod_mem_limit" {
   description = "The limit of Memory for the Lacework datacollector pod"
 }
 
+variable "lacework_agent_log_stdout" {
+  type        = bool
+  default     = true
+  description = "Enable Lacework agent stdout logging."
+}
+
 variable "tolerations" {
   type = list(map(string))
   default = [

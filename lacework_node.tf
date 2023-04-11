@@ -9,8 +9,9 @@ locals {
     lacework_proxy_url                       = var.lacework_proxy_url
     lacework_server_url                      = var.lacework_server_url
   })
-  node_config_name   = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
-  merged_node_config = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
+  lacework_agent_log_stdout = var.lacework_agent_log_stdout ? "yes" : ""
+  node_config_name          = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
+  merged_node_config        = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
 }
 
 resource "random_id" "node_config_name_tail" {
@@ -130,7 +131,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
 
           env {
             name  = "LaceworkLogStdout"
-            value = "yes"
+            value = local.lacework_agent_log_stdout
           }
 
           env {
