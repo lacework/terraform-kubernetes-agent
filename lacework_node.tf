@@ -9,6 +9,7 @@ locals {
     lacework_proxy_url                       = var.lacework_proxy_url
     lacework_server_url                      = var.lacework_server_url
   })
+  node_syscall_config_data  = file("${path.module}/syscall_config.yaml")
   lacework_agent_log_stdout = var.lacework_agent_log_stdout ? "yes" : ""
   node_config_name          = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
   merged_node_config        = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
@@ -17,7 +18,7 @@ locals {
 resource "random_id" "node_config_name_tail" {
   byte_length = 8
   keepers = {
-    data = local.merged_node_config
+    data = merge(local.merged_node_config, local.node_syscall_config_data)
   }
 }
 
@@ -48,7 +49,8 @@ resource "kubernetes_secret" "lacework_config" {
   }
 
   data = {
-    "config.json" = local.merged_node_config
+    "config.json"         = local.merged_node_config
+    "syscall_config.yaml" = local.node_syscall_config_data
   }
 }
 
@@ -165,7 +167,11 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
 
           volume_mount {
             name       = "config"
-            mount_path = "/var/lib/lacework/config"
+            mount_path = "/var/lib/lacework/config/config.json"
+          }
+          volume_mount {
+            name       = "syscall_config"
+            mount_path = "/var/lib/lacework/config/syscall_config.yaml"
           }
           volume_mount {
             name       = "dev"
@@ -267,6 +273,16 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             items {
               key  = "config.json"
               path = "config.json"
+            }
+          }
+        }
+        volume {
+          name = "syscall_config"
+          secret {
+            secret_name = local.node_config_name
+            items {
+              key  = "syscall_config.yaml"
+              path = "syscall_config.yaml"
             }
           }
         }
