@@ -170,7 +170,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             mount_path = "/var/lib/lacework/config/config.json"
           }
           volume_mount {
-            name       = "syscall_config"
+            name       = "syscall-config"
             mount_path = "/var/lib/lacework/config/syscall_config.yaml"
           }
           volume_mount {
@@ -277,7 +277,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           }
         }
         volume {
-          name = "syscall_config"
+          name = "syscall-config"
           secret {
             secret_name = local.node_config_name
             items {
