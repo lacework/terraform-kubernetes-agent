@@ -168,10 +168,12 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           volume_mount {
             name       = "config"
             mount_path = "/var/lib/lacework/config/config.json"
+            sub_path   = "config.json"
           }
           volume_mount {
             name       = "syscall-config"
             mount_path = "/var/lib/lacework/config/syscall_config.yaml"
+            sub_path   = "syscall_config.yaml"
           }
           volume_mount {
             name       = "dev"
