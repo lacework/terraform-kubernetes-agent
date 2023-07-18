@@ -18,7 +18,7 @@ locals {
 resource "random_id" "node_config_name_tail" {
   byte_length = 8
   keepers = {
-    data = merge(local.merged_node_config, local.node_syscall_config_data)
+    data = "${local.merged_node_config}${local.node_syscall_config_data}"
   }
 }
 
