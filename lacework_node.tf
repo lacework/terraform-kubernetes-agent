@@ -51,8 +51,8 @@ resource "kubernetes_secret" "lacework_config" {
   data = var.lacework_enable_default_syscall_config ? {
     "config.json"         = local.merged_node_config
     "syscall_config.yaml" = local.node_syscall_config_data
-  } : {
-    "config.json"         = local.merged_node_config
+    } : {
+    "config.json" = local.merged_node_config
   }
 }
 
@@ -268,13 +268,14 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           name = "config"
           secret {
             secret_name = local.node_config_name
-            items {
-              key  = "config.json"
-              path = "config.json"
-            }
-            items {
-              key  = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : ""
-              path = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : ""
+
+            dynamic "items" {
+              for_each = kubernetes_secret.lacework_config.data
+
+              content {
+                key  = items.key
+                path = items.key
+              }
             }
           }
         }
