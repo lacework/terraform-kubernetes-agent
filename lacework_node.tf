@@ -13,6 +13,9 @@ locals {
   lacework_agent_log_stdout = var.lacework_agent_log_stdout ? "yes" : ""
   node_config_name          = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
   merged_node_config        = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
+
+  # A list we can iterate on in our dynamic statement to mount config files
+  config_items = var.lacework_enable_default_syscall_config ? ["config.json", "syscall_config.yaml"] : ["config.json"]
 }
 
 resource "random_id" "node_config_name_tail" {
@@ -270,7 +273,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             secret_name = local.node_config_name
 
             dynamic "items" {
-              for_each = toset(kubernetes_secret.lacework_config.data)
+              for_each = toset(config_items)
 
               content {
                 key  = items.key
