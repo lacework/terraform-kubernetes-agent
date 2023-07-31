@@ -39,6 +39,12 @@ variable "lacework_agent_configuration" {
   default     = {}
 }
 
+variable "lacework_enable_default_syscall_config" {
+  type        = bool
+  default     = false
+  description = "A flag to enable the default syscall config"
+}
+
 variable "lacework_cluster_configuration" {
   type        = map(any)
   description = "A map/dictionary of configuration parameters for the Lacework K8s collector"
