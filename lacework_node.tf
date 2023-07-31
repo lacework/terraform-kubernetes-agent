@@ -273,8 +273,8 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
               path = "config.json"
             }
             items {
-              key  = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : null
-              path = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : null
+              key  = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : ""
+              path = var.lacework_enable_default_syscall_config ? "syscall_config.yaml" : ""
             }
           }
         }
