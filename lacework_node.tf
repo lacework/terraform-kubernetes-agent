@@ -270,7 +270,7 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
             secret_name = local.node_config_name
 
             dynamic "items" {
-              for_each = kubernetes_secret.lacework_config.data
+              for_each = jsondecode(kubernetes_secret.lacework_config.data)
 
               content {
                 key  = items.key
