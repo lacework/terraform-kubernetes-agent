@@ -10,6 +10,6 @@ resource "lacework_agent_access_token" "k8s" {
 module "lacework_k8s_datacollector" {
   source = "../../"
 
-  lacework_access_token    = lacework_agent_access_token.k8s.token
+  lacework_access_token     = lacework_agent_access_token.k8s.token
   lacework_agent_log_stdout = false
 }
