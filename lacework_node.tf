@@ -9,15 +9,19 @@ locals {
     lacework_proxy_url                       = var.lacework_proxy_url
     lacework_server_url                      = var.lacework_server_url
   })
+  node_syscall_config_data  = file("${path.module}/syscall_config.yaml")
   lacework_agent_log_stdout = var.lacework_agent_log_stdout ? "yes" : ""
   node_config_name          = "${var.lacework_config_name}-${random_id.node_config_name_tail.hex}"
   merged_node_config        = jsonencode(merge(jsondecode(local.node_config_data), var.lacework_agent_configuration))
+
+  # A list we can iterate on in our dynamic statement to mount config files
+  config_items = var.lacework_enable_default_syscall_config ? ["config.json", "syscall_config.yaml"] : ["config.json"]
 }
 
 resource "random_id" "node_config_name_tail" {
   byte_length = 8
   keepers = {
-    data = local.merged_node_config
+    data = var.lacework_enable_default_syscall_config ? "${local.merged_node_config}${local.node_syscall_config_data}" : local.merged_node_config
   }
 }
 
@@ -47,7 +51,10 @@ resource "kubernetes_secret" "lacework_config" {
     }
   }
 
-  data = {
+  data = var.lacework_enable_default_syscall_config ? {
+    "config.json"         = local.merged_node_config
+    "syscall_config.yaml" = local.node_syscall_config_data
+    } : {
     "config.json" = local.merged_node_config
   }
 }
@@ -264,9 +271,14 @@ resource "kubernetes_daemonset" "lacework_datacollector" {
           name = "config"
           secret {
             secret_name = local.node_config_name
-            items {
-              key  = "config.json"
-              path = "config.json"
+
+            dynamic "items" {
+              for_each = toset(local.config_items)
+
+              content {
+                key  = items.key
+                path = items.key
+              }
             }
           }
         }
