@@ -1,9 +1,11 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v2.3.0`.
+Another day, another release. These are the release notes for the version `v2.4.0`.
 
 ## Features
-* feat: add new variable 'lacework_agent_log_stdout' (#65) (Darren)([bb807d0](https://github.com/lacework/terraform-kubernetes-agent/commit/bb807d0f7ed19be9384fd92a398e01d061d9a4a6))
-## Documentation Updates
-* docs(RAIN-54746): update example urls (Atul Singh)([664382b](https://github.com/lacework/terraform-kubernetes-agent/commit/664382beda9c1f622dddce3795c29a0814ad0976))
+* feat: add a default syscall_config.yaml file (#73) (Jean-Philippe Lachance)([6cecea5](https://github.com/lacework/terraform-kubernetes-agent/commit/6cecea53fd55b3c187d36af02c0547f12f0a1b30))
+## Bug Fixes
+* fix(CPLAT-672): Update references to api.lacework.net (Atul Singh)([2874dcd](https://github.com/lacework/terraform-kubernetes-agent/commit/2874dcd6c15cb9520ceec0c7e0d92b645e78f347))
 ## Other Changes
-* ci: version bump to v2.2.1-dev (Lacework)([6e3462d](https://github.com/lacework/terraform-kubernetes-agent/commit/6e3462d779d4523d3c47b6ff948810ed9077a52b))
+* style: make the Terraform formatter format all files (#72) (Jean-Philippe Lachance)([3c95a1e](https://github.com/lacework/terraform-kubernetes-agent/commit/3c95a1eaf343c75264301d6c41da716bf52b09a8))
+* ci: tfsec (jon-stewart)([0bd3fa1](https://github.com/lacework/terraform-kubernetes-agent/commit/0bd3fa14f834ed0c096ee4e6f4602db01278bd2b))
+* ci: version bump to v2.3.1-dev (Lacework)([18adec1](https://github.com/lacework/terraform-kubernetes-agent/commit/18adec150f836b6d604c10155ae04a6bf52dd91e))
