@@ -12,6 +12,7 @@ collection agent.
 
 The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will then be used to run the Lacework Datacollector pod across all worker nodes in a cluster.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -25,6 +26,10 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 |------|---------|
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
+
+## Modules
+
+No modules.
 
 ## Resources
 
@@ -49,7 +54,6 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | <a name="input_lacework_access_token"></a> [lacework\_access\_token](#input\_lacework\_access\_token) | The access token for the Lacework agent | `string` | n/a | yes |
 | <a name="input_lacework_agent_autoupgrade"></a> [lacework\_agent\_autoupgrade](#input\_lacework\_agent\_autoupgrade) | Boolean value to control whether or not the agent should automatically upgrade to newer versions when available | `bool` | `true` | no |
 | <a name="input_lacework_agent_configuration"></a> [lacework\_agent\_configuration](#input\_lacework\_agent\_configuration) | A map/dictionary of configuration parameters for the Lacework datacollector | `any` | `{}` | no |
-| <a name="input_lacework_enable_default_syscall_config"></a> [lacework\_enable\_default\_syscall\_config](#input\_lacework\_enable\_default\_syscall\_config) | A flag to enable the default syscall config | `bool` | `false` | no |
 | <a name="input_lacework_agent_interface_connection_size"></a> [lacework\_agent\_interface\_connection\_size](#input\_lacework\_agent\_interface\_connection\_size) | Desired value for the InterfaceConnectionSize Lacework agent parameter | `string` | `""` | no |
 | <a name="input_lacework_agent_log_stdout"></a> [lacework\_agent\_log\_stdout](#input\_lacework\_agent\_log\_stdout) | Enable Lacework agent stdout logging. | `bool` | `true` | no |
 | <a name="input_lacework_agent_name"></a> [lacework\_agent\_name](#input\_lacework\_agent\_name) | The name for the Lacework agent service within Kubernetes | `string` | `"lacework-agent"` | no |
@@ -66,6 +70,7 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | <a name="input_lacework_cluster_region"></a> [lacework\_cluster\_region](#input\_lacework\_cluster\_region) | The region of the K8s cluster that the Lacework K8s collector will monitor | `string` | `""` | no |
 | <a name="input_lacework_cluster_type"></a> [lacework\_cluster\_type](#input\_lacework\_cluster\_type) | The type of the K8s cluster that the Lacework K8s collector will monitor | `string` | `""` | no |
 | <a name="input_lacework_config_name"></a> [lacework\_config\_name](#input\_lacework\_config\_name) | The name for the Lacework agent configuration within Kubernetes | `string` | `"lacework-config"` | no |
+| <a name="input_lacework_enable_default_syscall_config"></a> [lacework\_enable\_default\_syscall\_config](#input\_lacework\_enable\_default\_syscall\_config) | A flag to enable the default syscall config | `bool` | `false` | no |
 | <a name="input_lacework_image"></a> [lacework\_image](#input\_lacework\_image) | The name of the image to use for deploying the Lacework datacollector | `string` | `"lacework/datacollector"` | no |
 | <a name="input_lacework_image_pull_policy"></a> [lacework\_image\_pull\_policy](#input\_lacework\_image\_pull\_policy) | The pull policy to use for deploying the Lacework datacollector | `string` | `"Always"` | no |
 | <a name="input_lacework_proxy_url"></a> [lacework\_proxy\_url](#input\_lacework\_proxy\_url) | The proxy URL for the Lacework agent | `string` | `""` | no |
@@ -89,3 +94,4 @@ The `main.tf` file will configure a Kubernetes Secret and DaemonSet which will t
 | <a name="output_lacework_config_version"></a> [lacework\_config\_version](#output\_lacework\_config\_version) | Version of the Kubernetes Secret containing the Lacework config |
 | <a name="output_lacework_datacollector_name"></a> [lacework\_datacollector\_name](#output\_lacework\_datacollector\_name) | Name of the Kubernetes DaemonSet for the Lacework datacollector |
 | <a name="output_lacework_datacollector_version"></a> [lacework\_datacollector\_version](#output\_lacework\_datacollector\_version) | Version of the Kubernetes DaemonSet for the Lacework datacollector |
+<!-- END_TF_DOCS -->
