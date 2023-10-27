@@ -215,3 +215,30 @@ variable "node_selector" {
   default     = null
   description = "A map of key:value pairs of node labels to specify which nodes to deploy the DaemonsSet to"
 }
+
+variable "node_affinity" {
+  description = "Node affinity settings"
+
+  type = list(object({
+    key      = string
+    operator = string
+    values   = list(string)
+  }))
+
+  default = [
+    {
+      key      = "kubernetes.io/arch",
+      operator = "In",
+      values = [
+        "amd64",
+        "arm64"
+    ] },
+    {
+      key      = "kubernetes.io/os",
+      operator = "In",
+      values = [
+        "linux"
+      ]
+    }
+  ]
+}
