@@ -76,6 +76,7 @@ No modules.
 | <a name="input_lacework_proxy_url"></a> [lacework\_proxy\_url](#input\_lacework\_proxy\_url) | The proxy URL for the Lacework agent | `string` | `""` | no |
 | <a name="input_lacework_server_url"></a> [lacework\_server\_url](#input\_lacework\_server\_url) | The server URL for the Lacework agent | `string` | `""` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The Kubernetes namespace in which to deploy | `string` | `"default"` | no |
+| <a name="input_node_affinity"></a> [node\_affinity](#input\_node\_affinity) | Node affinity settings | <pre>list(object({<br>    key      = string<br>    operator = string<br>    values   = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "key": "kubernetes.io/arch",<br>    "operator": "In",<br>    "values": [<br>      "amd64",<br>      "arm64"<br>    ]<br>  },<br>  {<br>    "key": "kubernetes.io/os",<br>    "operator": "In",<br>    "values": [<br>      "linux"<br>    ]<br>  }<br>]</pre> | no |
 | <a name="input_node_selector"></a> [node\_selector](#input\_node\_selector) | A map of key:value pairs of node labels to specify which nodes to deploy the DaemonsSet to | `map(any)` | `null` | no |
 | <a name="input_pod_cpu_limit"></a> [pod\_cpu\_limit](#input\_pod\_cpu\_limit) | The limit of CPU units for the Lacework datacollector pod | `string` | `"500m"` | no |
 | <a name="input_pod_cpu_request"></a> [pod\_cpu\_request](#input\_pod\_cpu\_request) | The amount of CPU units to request for the Lacework datacollector pod | `string` | `"200m"` | no |
