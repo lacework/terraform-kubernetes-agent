@@ -18,7 +18,7 @@ locals {
   config_items = var.lacework_enable_default_syscall_config ? ["config.json", "syscall_config.yaml"] : ["config.json"]
 
   version_file   = "${abspath(path.module)}/VERSION"
-  module_name    = basename(abspath(path.module))
+  module_name    = "terraform-kubernetes-agent"
   module_version = fileexists(local.version_file) ? file(local.version_file) : ""
 }
 
