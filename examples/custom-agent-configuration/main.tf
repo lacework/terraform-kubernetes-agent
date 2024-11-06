@@ -5,6 +5,10 @@ module "lacework_k8s_datacollector" {
 
   lacework_access_token = "0123456789ABCDEF0123456789ABCDEF"
   lacework_agent_configuration = {
+    "fim" = {
+      "runat" : "23:50"
+      "mode" : "enable"
+    }
     "privileges" : {
       "capsmode" : "enabled"
     }
